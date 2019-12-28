@@ -23,10 +23,15 @@ namespace Ogxd {
                 current.transform.localPosition = new Vector3(-localPosition.x, localPosition.y, -localPosition.z);
             }
 
+            var meshes = new HashSet<Mesh>();
+
             MeshFilter[] meshFilters = gameObject.GetComponentsInChildren<MeshFilter>();
-            HashSet<Mesh> meshes = new HashSet<Mesh>();
             for (int mf = 0; mf < meshFilters.Length; mf++) {
                 meshes.Add(meshFilters[mf].sharedMesh);
+            }
+            SkinnedMeshRenderer[] skmrs = gameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
+            for (int mf = 0; mf < skmrs.Length; mf++) {
+                meshes.Add(skmrs[mf].sharedMesh);
             }
 
             foreach (Mesh mesh in meshes) {

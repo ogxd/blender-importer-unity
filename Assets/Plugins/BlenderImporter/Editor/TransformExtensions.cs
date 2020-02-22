@@ -27,8 +27,8 @@ namespace Ogxd {
         private static float GetDeterminant(this Matrix4x4 matrix)
         {
             return matrix.m00 * (matrix.m11 * matrix.m22 - matrix.m12 * matrix.m21) -
-                    matrix.m10 * (matrix.m01 * matrix.m22 - matrix.m02 * matrix.m21) +
-                    matrix.m20 * (matrix.m01 * matrix.m12 - matrix.m02 * matrix.m11);
+                   matrix.m10 * (matrix.m01 * matrix.m22 - matrix.m02 * matrix.m21) +
+                   matrix.m20 * (matrix.m01 * matrix.m12 - matrix.m02 * matrix.m11);
         }
 
         public static void SetFromLocalMatrix(this Transform transform, Matrix4x4 matrix, bool invertHandedness, bool switchUpAxis, float scaleFactor)
@@ -111,39 +111,7 @@ namespace Ogxd {
             return matrix;
         }
 
-        public static Matrix4x4 TransformMatrix(Matrix4x4 matrix, bool invertHandedness, bool switchUpAxis, float scaleFactor)
-        {
-            matrix.GetTRS(out Vector3 t, out Quaternion r, out Vector3 s);
 
-            t *= scaleFactor;
 
-            // If matrix should is for Z-up system, we convert the TRS from Unity's Y-up system
-            if (switchUpAxis) {
-                t = new Vector3(t.x, t.z, t.y);
-                r = new Quaternion(r.x, r.z, r.y, -r.w);
-                s = new Vector3(s.x, s.z, s.y);
-            }
-
-            // If matrix should is for Left-Handed system, we convert the TRS from Unity's Right-Handed system
-            if (invertHandedness) {
-                t = new Vector3(-t.x, t.y, t.z);
-                r = new Quaternion(-r.x, r.y, r.z, -r.w);
-            }
-
-            matrix = Matrix4x4.identity;
-            matrix.SetTRS(t, r, s);
-
-            return matrix;
-        }
-
-        public static Vector3 TransformVector(Vector3 vector, bool invertHandedness, bool switchUpAxis)
-        {
-            return new Vector3(invertHandedness ? -vector.x : vector.x, switchUpAxis ? vector.z : vector.y, switchUpAxis ? vector.y : vector.z);
-        }
-
-        public static Vector4 TransformVector(Vector4 vector, bool invertHandedness, bool switchUpAxis)
-        {
-            return new Vector4(invertHandedness ? -vector.x : vector.x, switchUpAxis ? vector.z : vector.y, switchUpAxis ? vector.y : vector.z, vector.w);
-        }
     }
 }

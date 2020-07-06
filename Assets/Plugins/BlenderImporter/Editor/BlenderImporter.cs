@@ -33,10 +33,8 @@ namespace Ogxd {
 
         private void OnPostprocessModel(GameObject gameObject) {
 
-            return;
-
             switch (Path.GetExtension(assetPath).ToLower()) {
-                //case ".fbx":
+                // You can easily change this part below if you want different orienation or different formats !
                 case ".blend":
                     rightAxis = AXIS.X;
                     rightDirection = DIRECTION.Positive;
